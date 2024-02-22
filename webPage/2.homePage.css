@@ -576,28 +576,14 @@ h2{
 
 @media screen and (max-width: 768px) {
 
-  .cursor{
-    visibility: collapse;
-  }
    body{
        width: 100%;
        margin: 0;
        padding: 0;
        overflow: auto;
-       padding-bottom: 100px;
 
    }
-   .navbar{
-    width: 100vw;
-   }
    
-    .navbar a {
-        font-size: 0.8em; 
-    }
-    .navbar a:nth-child(3){
-      display: none;
-    }
-    
     .search-bar {
       margin-left: auto;
       margin-right: auto;

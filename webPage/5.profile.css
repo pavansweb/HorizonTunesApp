@@ -33,44 +33,33 @@ body {
   .navbar {
     display: flex;
     position: fixed;
+    z-index: 3;
+    height: 1.5rem;
     color: white;
-    top: 0;
+    top: 0rem;
     width: 100%;
-    text-align: center; 
-    justify-content: space-evenly; 
-    backdrop-filter: blur(10px);
-    flex-wrap: nowrap;
-  } 
+    padding: 10px;
+    align-items: center;
+    justify-content: space-around;
+    background-color:#212122; 
+  }
   
   
   .navbar a {
     font-size: 1em;
-    color: white;
+    color: #37FF8B;
     font-family: Arial, Helvetica, sans-serif;
     cursor: pointer;
     position: relative;
     border: none;
     background: none;
     text-transform: uppercase;
-    transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
-    transition-duration: 400ms;
-    transition-property: color;
-    margin-right: 2em;
     text-decoration: none;
+    transition: all 0.5s ease-in-out;
   }
   
-  .navbar button:focus,
-  .navbar button:hover {
-    color: #fff;
-  }
   
-  .navbar button:focus:after,
-  .navbar button:hover:after {
-    width: 100%;
-    left: 0%;
-  }
-  
-  .navbar button:after {
+  .navbar a:after {
     content: "";
     pointer-events: none;
     bottom: -2px;
@@ -83,7 +72,11 @@ body {
     transition-duration: 400ms;
     transition-property: width, left;
   }
-
+  
+  
+  
+  
+  
   .menu__item img {
     height: 5rem;
     border-radius: 50%;
@@ -108,7 +101,7 @@ body {
   }
   .menu__btn {
     position: fixed;
-    top: 3.5rem;
+    top: 1.2rem;
     left: 20px;
     width: 26px;
     height: 26px;
@@ -136,10 +129,11 @@ body {
   .menu__box {
     display: block;
     position: fixed;
+    cursor: default;
     top: 0;
     left: -100%;
     width: 200px;
-    height: 100%;
+    height: 100em;
     margin: 0;
     padding: 100px 0;
     z-index: 1;
@@ -148,10 +142,14 @@ body {
     box-shadow: 2px 2px 6px rgba(0, 0, 0, .4);
     transition-duration: .25s;
   }
+  .menu__box a{
+    color: white;
+  }
   .menu__item {
     display: block;
     padding: 12px 24px;
-    color: rgb(255, 255, 255);
+    color: white;
+    cursor: pointer;
     font-family: 'Roboto', sans-serif;
     font-size: 20px;
     font-weight: 600;
@@ -170,91 +168,81 @@ body {
     color: red;
   }
 
-  #profileBox{
-    background-color: rgba(0, 0, 0, 0.5);
-    margin: 0 6em 2em 6em;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    width: 80%;
-    margin-right: auto;
-    margin-left: auto;
-    height: 32em;
-    top: 4em;
-    border: rgb(58, 47, 47) 1px solid;
-  }
 
-  #backgroundImage{
+
+  #profileBox {
+    background-color: rgba(0, 0, 0, 0.5);
+    position: relative;
+    width: 80%;
+    left: 10%;
+    height: fit-content;
+    top: 4em;
+    border: 1px solid #3a2f2f;
+    padding: 10px;
+}
+
+#username {
+  text-align: right;
+  width: 100%;
+  display: block;
+  position: relative;
+  margin-top: 3rem ;
+  font-size: 2rem;
+  color: #37FF8B;
+  text-shadow: #37FF8B 3px 3px 10px ;
+  text-decoration: underline 1px  #616161;
+}
+
+#banner {
+  position: relative;
     background-image: url("https://i.imgur.com/bDePe5R.jpg");
     background-size: cover;
-    background-position:0px;
-    position: absolute;
-    border: white solid 2px;
-    top: 5rem;
+    background-position: center;
     height: 10rem;
-    width: 99.7%;
-  }
-  #image{
+    border: 2px solid white;
+}
+
+#image {
     background-image: url("https://i.imgur.com/V1gIGAi.jpg");
     background-size: cover;
-    background-position: center;
     position: relative;
     display: block;
-    top: 11rem;
+    top: 6rem;
     left: 3rem;
     height: 10rem;
     width: 10rem;
-    border: white solid 2px;
+    border: 2px solid white;
     border-radius: 50%;
-  }
+}
 
-  #username{
-    display: block;
-    position: absolute;
-    font-size: 2rem;
-    top: 0rem;
-    left: 40%;
-    color:rgb(255, 255, 255);
-    text-decoration: underline;
-  }
 
-  #bio{
-    position:relative;
+#bio {
+    position: relative;
     display: block;
-    height: fit-content;
     width: fit-content;
-    top: 8rem;
-    left: 22rem;
-    font-size: 1.5rem;
+    top: 3rem;
+    left: 1rem;
+    margin-bottom: 3rem;
+    font-size: 1rem;
     padding: 10px;
     color: #fff;
-    border: rgb(58, 47, 47) 1px solid;
-  }
+    border: 1px solid #3a2f2f;
+}
 
-  .socialButtons {
-    position: absolute;
-    height: 4rem;
-    width: 4rem;
-    right: auto;
-    left: 40%;
-    bottom: 20px;
-    display: flex;
-    justify-content:center;
-  }
-  .socialButtons img{
-     margin: 10px;
+
+
+.socialButtons a {
+    margin: 10px;
     border-radius: 50%;
-   
-  }
+}
+
+.socialButtons img {
+    width: 40px;
+    height: 40px;
+}
+
   @media screen and (max-width: 768px) {
-    .navbar button {
-        font-size: 0.8em; 
-    }
-    #profileBox{
-        height: 25rem;
-        margin: 0;
-        
-    }
+  
     #image{
         top: 7rem;
         left: 1rem;
@@ -266,15 +254,10 @@ body {
         top: 0rem;
         
     }
-    #backgroundImage{
+    #banner{
        top: 5rem;
        height: 5rem;
        width: 100%;
     }
-    #bio{
-       top: 8rem;
-       left: 2rem;
-       padding: 10px;
-       font-size: 1rem;
-    }
+   
 }

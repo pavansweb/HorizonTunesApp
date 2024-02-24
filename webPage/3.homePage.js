@@ -13,6 +13,16 @@ document.addEventListener("DOMContentLoaded", function () {
     const songContainer = document.querySelector('.song-container');
     const songBoxes = document.querySelectorAll('.song-box');
     const body = document.getElementsByTagName('body')[0];
+    const backHome = document.querySelectorAll('.backHome');
+    const backArrow = document.getElementById("backArrow");
+    const backArrowBottom = document.getElementById("backArrowBottom");
+    const bottomPlayerText = document.getElementById('bottomPlayerText');
+    const bottomPlayerImg = document.getElementById('bottomPlayerImg');
+    const bottomPlayerPlayBtn = document.getElementById('bottomPlayerPlayBtn');
+
+    let page = 'home';
+    backArrow.style.display = 'none';
+   
     
     console.log("Ummm you shouldnt be checking this websites console but since u are here lemme show some useless info :-");
     console.log("Total Songs",songDatabase);
@@ -25,6 +35,7 @@ document.addEventListener("DOMContentLoaded", function () {
     songSearchInput.addEventListener("input", handleSearchInput);
     searchResultsContainer.addEventListener("click", handleSearchResultClick);
     playPauseButton.addEventListener("click", togglePlayPause);
+    bottomPlayerPlayBtn.addEventListener("click", togglePlayPause);
 
     audioPlayer.addEventListener("timeupdate", updateProgressBar);
     audioPlayer.addEventListener("ended", () => isPlaying = false);
@@ -183,11 +194,28 @@ window.addEventListener('popstate', function (event) {
     }
 });
 
+backHome.forEach(element => {
+    element.addEventListener('click', function() {
+        reverseSwitch() 
+    });
+});
+
+backArrowBottom.addEventListener('click',function(){
+    if (page == 'home') {
+        Switch()
+    } else if (page = 'musicPlayer') {
+        reverseSwitch();
+    }
+})
 // Function to perform the reverse Switch
 function reverseSwitch() {
     musicPlayer.style.display = 'none';
     songContainer.style.display = 'grid';
-    body.style.backgroundImage = 'url("your-original-background-image-url")';
+    body.style.backgroundImage = 'none'
+    body.style.backgroundColor = 'black';
+       
+    backArrow.style.display = 'none';
+    backArrowBottom.style.display = 'block';
 
     // Remove custom classes from search-bar and search-results
     const searchBar = document.querySelector('.search-bar');
@@ -195,6 +223,9 @@ function reverseSwitch() {
 
     searchBar.classList.remove('customsearch-bar');
     searchResults.classList.remove('customsearch-results');
+    console.log('Reverse Switch complete');
+
+    page = 'home';
 }
 
 // Function to trigger the Switch and set state
@@ -202,7 +233,10 @@ function Switch() {
     musicPlayer.style.display = 'grid';
     songContainer.style.display = 'none';
     body.style.backgroundColor = '#121212';
-
+   
+    backArrow.style.display = 'block';
+    
+   
     // Add custom classes to search-bar and search-results
     const searchBar = document.querySelector('.search-bar');
     const searchResults = document.querySelector('.search-results');
@@ -212,7 +246,10 @@ function Switch() {
 
     // Set state to include information about the Switch
     const state = { switched: true };
+    page = 'musicPlayer'
     history.pushState(state, '', ''); // pushState to update the browsing history
+
+    console.log('Switch complete');
 }
 
 
@@ -276,13 +313,20 @@ function playSelectedSong(songSrc, imageSrc, songCategory) {
         existingTitleDiv.remove();
     }
 
+    
+
     // Create a div for displaying song title
     const titleDiv = document.createElement('div');
     titleDiv.className = 'songInfo song-title';
     titleDiv.textContent = `Song Name: ${foundSong.title || 'Unknown'}`;
 
+    bottomPlayerText.innerText = foundSong.title;
+
     // Insert the title div below the song image
     albumArt.parentNode.insertBefore(titleDiv, albumArt.nextSibling);
+
+    bottomPlayerImg.src = imageSrc ;
+
 
     songSearchInput.value = "";
     searchResultsContainer.style.display = "none";
@@ -410,6 +454,7 @@ function updatePlayingCategory(category) {
 
     function updatePlayPauseButton() {
         playPauseButton.textContent = isPlaying ? 'Pause' : 'Play';
+        bottomPlayerPlayBtn.textContent = isPlaying ? '❚❚' : '▶';
     }
 
     function formatTime(time) {

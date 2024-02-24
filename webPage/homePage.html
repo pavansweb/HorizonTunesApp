@@ -36,7 +36,9 @@
             </ul>
           </div>
 
-        <a id="title" href="https://pavansweb.github.io/HorizonTunesApp/webPage/homePage.html"> HORIZON &nbsp;TUNES  </a>
+          <a class="backHome" id="backArrow"> <i class="fa-solid fa-arrow-left"></i></a>
+
+        <a id="title" class="backHome" > HORIZON &nbsp;TUNES  </a>
         <space> </space>
 
     </nav>
@@ -226,7 +228,7 @@
         <img id="playerImg" src="https://i.imgur.com/kdO25Qu.jpg" alt="Music Image">
     
         <div class="player-controls">
-            <a class="playBtn" onclick="togglePlayPause()">
+            <a class="playBtn" >
                 <span class="playBtnspan">Play</span>
             </a>
             <div class="progress-bar-container">
@@ -252,6 +254,17 @@
 </div>
 </div>
     
+  <div class="bottomPlayer">
+
+     <a  id="backArrowBottom"> <i class="fa-solid fa-arrow-left"></i></a>
+     <p id="bottomPlayerText">Song name</p>
+    
+     <i class="fas fa-chevron-left"></i>
+     <a id="bottomPlayerPlayBtn"><span class="playBtnspan">▶</span> </a>
+     <i class="fas fa-chevron-right"></i>
+     <image src="https://i.imgur.com/kdO25Qu.jpg" id="bottomPlayerImg"></image>   
+  </div>
+
 
     <script type="module" src="3.homePage.js"></script>
     <script type="module" src="songsDatabase.js"></script>

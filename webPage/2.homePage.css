@@ -341,6 +341,16 @@ h2{
   margin-top: 10px;
 }
 
+#backArrow{
+  position: absolute;
+  top: 12px;
+  left: 60px;
+  width: 26px;
+  height: 26px;
+  cursor: pointer;
+  z-index: 2;
+}
+
 .music-player {
   display: none;
   width: 71%;
@@ -560,13 +570,50 @@ h2{
   }
 }
 
+.bottomPlayer{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  position: fixed;
+  bottom: 6px;
+  background-color: black;
+  color:white;
+  font-size: 1.2rem;
+  height: 3rem;
+  width: 90%;
+  left: 4%;
+  padding: 1px 1%;
+  animation: glowing 1.5s infinite alternate ;
+  animation-delay: 500ms;
+  box-shadow: 0 0 10px 5px  #37FF8B;
+  
+}
 
+@keyframes glowing {
+  from {
+      box-shadow: 0 0 10px 6px  #37FF8B;
+      color: #37FF8B;
+  }
+  to {
+      box-shadow: 0 0 20px 8px   aqua;
+      color: aqua;
+  }
+}
 
-@media screen and (max-width: 768px) {
+#bottomPlayerText{
+  
+  font-weight: 600;
+  text-shadow: 0 0 10px  #37FF8B;
 
-
-
-   
+}
+#bottomPlayerImg{
+  position: relative;
+  height: auto;
+  max-width: 2rem;
+  width: auto;
+  box-shadow: aqua 0px 0px 4px 2px;
+}
+@media screen and (max-width: 768px) {  
     .player-controls{
       margin-top: 40px;
     }

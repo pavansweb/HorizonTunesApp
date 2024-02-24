@@ -19,6 +19,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const bottomPlayerText = document.getElementById('bottomPlayerText');
     const bottomPlayerImg = document.getElementById('bottomPlayerImg');
     const bottomPlayerPlayBtn = document.getElementById('bottomPlayerPlayBtn');
+    const bottomPlayerPreviousNext = document.querySelectorAll('.bottomPlayerPreviousNext');
+
 
     let page = 'home';
     backArrow.style.display = 'none';
@@ -36,6 +38,20 @@ document.addEventListener("DOMContentLoaded", function () {
     searchResultsContainer.addEventListener("click", handleSearchResultClick);
     playPauseButton.addEventListener("click", togglePlayPause);
     bottomPlayerPlayBtn.addEventListener("click", togglePlayPause);
+
+  //Bottom Next and Previous buttons
+const bottomPlayerPreviousNextButtons = document.querySelectorAll('.bottomPlayerPreviousNext');
+bottomPlayerPreviousNextButtons.forEach(button => {
+    button.addEventListener("click", function() {
+        const currentCategoryDiv = document.querySelector('.song-category');
+        if (currentCategoryDiv) {
+            const currentCategory = currentCategoryDiv.textContent.replace('Category: ', '').trim();
+            // Assuming playRandomSongFromCategory function exists and takes category as parameter
+            playRandomSongFromCategory(currentCategory);
+        }
+    });
+});
+
 
     audioPlayer.addEventListener("timeupdate", updateProgressBar);
     audioPlayer.addEventListener("ended", () => isPlaying = false);
@@ -337,8 +353,6 @@ function playSelectedSong(songSrc, imageSrc, songCategory) {
 
 // Add an event listener for the 'ended' event on the audioPlayer
 audioPlayer.addEventListener('ended', function() {
-
-   
     console.log("Audio playback ended."); // Check if the event listener is triggered
 
     // Get the current category from the displayed category div

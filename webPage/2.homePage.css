@@ -5,11 +5,9 @@
 
 
 body {
-  background-image: url("https://i.imgur.com/2rZDjQ1.jpg");
+
   font-family: Montserrat;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-color: #131c30;
+  background-color: #110b0b;
   position: relative;
   width: 100%;
   margin: 0;
@@ -345,7 +343,7 @@ h2{
 
 .music-player {
   display: none;
-  width: 80%;
+  width: 90%;
   margin: auto;
   padding: 20px;
   background-color: #121212;

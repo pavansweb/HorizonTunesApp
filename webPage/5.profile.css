@@ -261,3 +261,16 @@ body {
     }
    
 }
+
+@media screen and (min-width: 1px) {
+  body{
+   background: url(https://w0.peakpx.com/wallpaper/483/34/HD-wallpaper-madara-eyes-madara-uchiha-eyes-anime-eyes-naruto.jpg);
+   background-size: cover;
+  color: white;
+  display: flex;
+  justify-content: center;
+  }
+   body1{
+    display: none;
+   }
+}

@@ -201,7 +201,7 @@ function reverseSwitch() {
 function Switch() {
     musicPlayer.style.display = 'grid';
     songContainer.style.display = 'none';
-    body.style.backgroundImage = 'url("https://wallpapers.com/images/high/chill-music-background-qizu4za4rxw20upo.webp")';
+    body.style.backgroundColor = '#121212';
 
     // Add custom classes to search-bar and search-results
     const searchBar = document.querySelector('.search-bar');

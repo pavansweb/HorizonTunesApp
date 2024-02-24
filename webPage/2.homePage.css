@@ -343,9 +343,10 @@ h2{
 
 .music-player {
   display: none;
-  width: 90%;
+  width: 71%;
   margin: auto;
-  padding: 20px;
+  margin-top: 3rem;
+  padding: 10px 40px 50px 40px;
   background-color: #121212;
   color: white;
   border-radius: 10px;
@@ -564,12 +565,7 @@ h2{
 @media screen and (max-width: 768px) {
 
 
-    .music-player {  
-      margin-top: 3rem;
-      width: 50%;
-      padding: 10px 40px 50px 40px;
-    }
-  
+
    
     .player-controls{
       margin-top: 40px;

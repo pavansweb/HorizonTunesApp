@@ -15,14 +15,17 @@ document.addEventListener("DOMContentLoaded", function () {
     const body = document.getElementsByTagName('body')[0];
     const backHome = document.querySelectorAll('.backHome');
     const backArrow = document.getElementById("backArrow");
+    const bottomPlayer = document.querySelector(".bottomPlayer");
     const backArrowBottom = document.getElementById("backArrowBottom");
     const bottomPlayerText = document.getElementById('bottomPlayerText');
     const bottomPlayerImg = document.getElementById('bottomPlayerImg');
     const bottomPlayerPlayBtn = document.getElementById('bottomPlayerPlayBtn');
-    const bottomPlayerPreviousNext = document.querySelectorAll('.bottomPlayerPreviousNext');
+    const bottomPlayerPrevious = document.querySelector('.bottomPlayerPrevious');
+    const bottomPlayerNext = document.querySelector('.bottomPlayerNext');
+    
 
 
-    let page = 'home';
+   
     backArrow.style.display = 'none';
    
     
@@ -30,27 +33,20 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log("Total Songs",songDatabase);
 
     musicPlayer.style.display = 'none';
-
+    bottomPlayer.style.display = 'none';
+    
     
     let isPlaying = false;
+    let page = 'home';
+    
+
 
     songSearchInput.addEventListener("input", handleSearchInput);
     searchResultsContainer.addEventListener("click", handleSearchResultClick);
     playPauseButton.addEventListener("click", togglePlayPause);
     bottomPlayerPlayBtn.addEventListener("click", togglePlayPause);
 
-  //Bottom Next and Previous buttons
-const bottomPlayerPreviousNextButtons = document.querySelectorAll('.bottomPlayerPreviousNext');
-bottomPlayerPreviousNextButtons.forEach(button => {
-    button.addEventListener("click", function() {
-        const currentCategoryDiv = document.querySelector('.song-category');
-        if (currentCategoryDiv) {
-            const currentCategory = currentCategoryDiv.textContent.replace('Category: ', '').trim();
-            // Assuming playRandomSongFromCategory function exists and takes category as parameter
-            playRandomSongFromCategory(currentCategory);
-        }
-    });
-});
+
 
 
     audioPlayer.addEventListener("timeupdate", updateProgressBar);
@@ -329,8 +325,6 @@ function playSelectedSong(songSrc, imageSrc, songCategory) {
         existingTitleDiv.remove();
     }
 
-    
-
     // Create a div for displaying song title
     const titleDiv = document.createElement('div');
     titleDiv.className = 'songInfo song-title';
@@ -347,27 +341,33 @@ function playSelectedSong(songSrc, imageSrc, songCategory) {
     songSearchInput.value = "";
     searchResultsContainer.style.display = "none";
     isPlaying = true;
+    bottomPlayer.style.display = 'flex';
+    
     updatePlayPauseButton();
-    console.log("Played selected song");
+    console.log(`Played selected song ${foundSong.title} `, );
+    
 }
 
-// Add an event listener for the 'ended' event on the audioPlayer
+// Play next Song
 audioPlayer.addEventListener('ended', function() {
-    console.log("Audio playback ended."); // Check if the event listener is triggered
+
+    console.log(""); 
 
     // Get the current category from the displayed category div
     const currentCategoryDiv = document.querySelector('.song-category');
     if (currentCategoryDiv) {
         const currentCategory = currentCategoryDiv.textContent.replace('Category: ', '').trim();
-        console.log("Current Category:", currentCategory); // Log the retrieved current category
+        console.log("Audio playback ended. Current Category:", currentCategory); // Log the retrieved current category
 
         // Play a random song from the same category
-        playRandomSongFromCategory(currentCategory);
+        playNextSongFromCategory(currentCategory);
     }
 });
 
-// Function to play a random song from the specified category
-function playRandomSongFromCategory(category) {
+// Function to play the next song from the specified category
+// Initialize the current song index variable
+let currentSongIndex = -1;
+function playNextSongFromCategory(category, isNext) {
     let categoryArray;
 
     // Determine the array based on the category
@@ -390,25 +390,48 @@ function playRandomSongFromCategory(category) {
             break;
     }
 
-    // Check if there are songs in the category array
-    if (categoryArray && categoryArray.length > 0) {
-        // Get a random index
-        const randomIndex = Math.floor(Math.random() * categoryArray.length);
-        console.log("Random Index:", randomIndex);
-
-        // Get the random song from the array
-        const randomSong = categoryArray[randomIndex];
-        console.log("Random Song:", randomSong);
-
-        // Play the random song
-        playSelectedSong(randomSong.src, randomSong.image, category);
-
-        // Update the currently playing category div
-        updatePlayingCategory(category);
+    // Increment or decrement the current song index based on isNext parameter
+    if (isNext) {
+        currentSongIndex = (currentSongIndex + 1) % categoryArray.length;
     } else {
-        console.log("No songs found in category:", category);
+        currentSongIndex = (currentSongIndex - 1 + categoryArray.length) % categoryArray.length;
     }
+
+    // Get the next song from the array using the updated index
+    const nextSong = categoryArray[currentSongIndex];
+
+    // Play the next song
+    playSelectedSong(nextSong.src, nextSong.image, category);
+
+    // Update the currently playing category div
+    updatePlayingCategory(category);
 }
+
+// Add event listeners to the Previous and Next buttons
+bottomPlayerPrevious.addEventListener("click", function() {
+    const currentCategoryDiv = document.querySelector('.song-category');
+    if (currentCategoryDiv) {
+        const currentCategory = currentCategoryDiv.textContent.replace('Category: ', '').trim();
+        playNextSongFromCategory(currentCategory, false); // Pass false to indicate previous song
+    }
+});
+
+bottomPlayerNext.addEventListener("click", function() {
+    const currentCategoryDiv = document.querySelector('.song-category');
+    if (currentCategoryDiv) {
+        const currentCategory = currentCategoryDiv.textContent.replace('Category: ', '').trim();
+        playNextSongFromCategory(currentCategory, true); // Pass true to indicate next song
+    }
+});
+
+
+
+function markSongAsPlaying(categoryArray, songSrc) {
+    categoryArray.forEach(song => {
+        song.playing = (song.src === songSrc);
+    });
+}
+
 
 // Function to update the currently playing category div
 function updatePlayingCategory(category) {
@@ -422,8 +445,13 @@ function updatePlayingCategory(category) {
 
     // Update the text content of the playing category div
     playingCategoryDiv.textContent = `Playing songs from same category: ${category}`;
-    console.log("Playing category updated:", category);
+
+    // Delete the div after 10 seconds
+    setTimeout(() => {
+        playingCategoryDiv.remove();
+    }, 10000); // 10 seconds in milliseconds
 }
+
 
 
 
@@ -563,6 +591,8 @@ volumeSlider.addEventListener("input", function() {
 
     //</loading>
 
+ 
+    
         //<the end?>
 });
 

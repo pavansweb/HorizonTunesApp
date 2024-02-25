@@ -52,13 +52,18 @@ document.addEventListener("DOMContentLoaded", function () {
     const sidebar = document.querySelector(".menu__box");
 
     songDownloadBtn.addEventListener("click", downloadSong);
+
     function downloadSong() {
       // Get the source of the currently playing song
       const currentSongSrc = audioPlayer.src;
-
-      // Redirect to the download link (same as the current song's src)
-      window.location.href = currentSongSrc;
+      
+      // Create a temporary anchor element
+      const downloadLink = document.createElement('a');
+      downloadLink.href = currentSongSrc;
+      downloadLink.download = currentSongSrc.split('/').pop(); // Set the filename to the last segment of the URL
+      downloadLink.click();
     }
+    
 
     // Check if the click is outside the search bar and results
     if (

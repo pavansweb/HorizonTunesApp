@@ -617,11 +617,11 @@ h2 {
   justify-content: space-around;
   align-items: center;
   position: fixed;
-  bottom: 6px;
+  bottom: 70px;
   background-color: black;
   color: white;
   font-size: 1.2rem;
-  height: 3rem;
+  height: 50px;
   width: 90%;
   left: 4%;
   padding: 1px 1%;
@@ -629,6 +629,36 @@ h2 {
   animation-delay: 500ms;
   box-shadow: 0 0 10px 5px #37ff8b;
 }
+
+.bottomBar {
+  position: fixed;
+  bottom: 0px;
+  background-color: #212122;
+  box-shadow: 0px -5px 10px green; 
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+  padding: 10px 0;
+}
+
+
+.bottomBtn {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: #37ff8b;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  font-weight: bold; 
+  transition: background-color 0.3s;
+  padding: 13px 25px;
+}
+
+.bottomBtn:hover {
+  background-color:  rgba(255, 255, 255, 0.2);;
+}
+
 
 @keyframes glowing {
   from {

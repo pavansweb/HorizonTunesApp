@@ -1,0 +1,84 @@
+body {
+    font-family: Arial, sans-serif;
+    background-image: url('https://i.pinimg.com/originals/45/f0/e9/45f0e90292e975d5f587af382acd8cc6.jpg');
+    background-size: cover;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  .upload-form {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+
+  .upload-form h2 {
+    margin-bottom: 20px;
+    color: #333;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+    text-align: left;
+  }
+
+  .form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #555;
+  }
+
+  .form-group input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+
+  .form-group input[type="file"] {
+    display: none;
+  }
+
+  .form-group .custom-upload-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .form-group .custom-upload-btn:hover {
+    background-color: #45a049;
+  }
+
+  .form-group .custom-upload-btn:focus {
+    outline: none;
+  }
+
+  .form-group .upload-filename {
+    margin-top: 10px;
+    color: #777;
+  }
+
+  .form-group .upload-preview {
+    margin-top: 20px;
+    max-width: 200px;
+    display: none;
+  }
+
+  @media screen and (min-width: 786px) {
+        .upload-form{
+            padding: 100px;
+        }
+    }

@@ -2,6 +2,7 @@ import os
 from flask import Flask, render_template, request, jsonify, send_from_directory
 import requests
 import re  # Import regular expressions module for filename sanitization
+import base64
 
 app = Flask(__name__)
 
@@ -68,16 +69,13 @@ def upload_song():
 def serve_static(filename):
     return send_from_directory('static', filename)
 
-import base64
 
-import base64
-import os
 
 def upload_to_github(file_path, filename):
     try:
         # GitHub repository details
         username = "pavansweb"
-        access_token = "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"
+        access_token = "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"
         repository = "songs"
 
         # GitHub API endpoint
@@ -117,7 +115,5 @@ def upload_to_github(file_path, filename):
 
 
 
-
-
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='127.0.0.1', port=5000, debug=True)

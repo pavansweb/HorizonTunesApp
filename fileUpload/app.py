@@ -12,9 +12,25 @@ if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-def sanitize_filename(filename):
-    # Remove any characters that are not alphanumeric or underscore
-    return re.sub(r'[^\w]', '', filename)
+SONG_DATABASE_FILE = 'songDatabase.js'
+
+def add_to_song_database(title, src, image, category, author, num_lines_from_bottom):
+    try:
+        with open(SONG_DATABASE_FILE, 'r') as file:
+            lines = file.readlines()
+
+        # Calculate the index to insert the new song details
+        index = len(lines) - num_lines_from_bottom
+
+        # Insert the new song details at the calculated index
+        new_song = f'{{ title: "{title}", src: "{src}", image: "{image}", category: "{category}", author: "{author}" }},\n'
+        lines.insert(index, new_song)
+
+        with open(SONG_DATABASE_FILE, 'w') as file:
+            file.writelines(lines)
+    except Exception as e:
+        print(f"Error adding to song database: {e}")
+
 
 @app.route('/')
 def index():
@@ -24,8 +40,10 @@ def index():
 def upload_song():
     if request.method == 'POST':
         try:
+            print("Received POST request")
             # Check if the fileUpload key exists in the request.files dictionary
             if 'fileUpload' not in request.files:
+                print("No file part")
                 return jsonify({"error": "No file part"}), 400
 
             # Get song details from the form
@@ -44,32 +62,41 @@ def upload_song():
 
             # Check if the file is empty
             if song_file.filename == '':
+                print("No selected file")
                 return jsonify({"error": "No selected file"}), 400
 
-            # Sanitize the filename
-            sanitized_filename = sanitize_filename(song_name)
+    
 
             # Save the song file with the sanitized filename
-            file_name = f"{sanitized_filename}.mp3"
+            file_name = f"{song_name}.mp3"
             file_path = os.path.join(app.config['UPLOAD_FOLDER'], file_name)
             song_file.save(file_path)
 
+            print("Song saved to disk")
+
             # Upload the song file to GitHub
             upload_to_github(file_path, file_name)
+
+            print("  ")
+
+            # Add song details to songDatabase.js
+            add_to_song_database(song_name, f"https://pavansweb.github.io/songs/{file_name}", song_image, song_genre, song_author , 4)
+
+            print("Song details added to songDatabase.js")
 
             # Return a success response
             return jsonify({"message": "Song uploaded successfully", "file_url": f"/{file_name}"})
         except Exception as e:
             # If any error occurs during the upload process, return an error response
+            print(f"Error: {e}")
             return jsonify({"error": f"Error in uploading: {str(e)}"}), 500
     else:
         return jsonify({"error": "Method not allowed"}), 405
 
+
 @app.route('/fileUpload/static/<path:filename>')
 def serve_static(filename):
     return send_from_directory('static', filename)
-
-
 
 def upload_to_github(file_path, filename):
     try:
@@ -112,8 +139,6 @@ def upload_to_github(file_path, filename):
             print(f"Failed to upload song to GitHub. Status code: {response.status_code}")
     except Exception as e:
         print(f"Error uploading to GitHub: {e}")
-
-
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=5000, debug=True)

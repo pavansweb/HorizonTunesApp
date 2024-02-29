@@ -25,21 +25,27 @@
         </div>
         <div class="form-group">
             <label for="songImage">Song Image Link:</label>
-            <input type="text" id="songImage" name="songImage" required>
+            <input type="text" id="songImage" name="songImage" >
+            <p style="color: red ;">(* IMG Cropped to square) </p>
         </div>
         <div class="form-group">
             <label for="fileUpload" class="custom-upload-btn">Choose File</label>
-            <input type="file" id="fileUpload" name="fileUpload" accept="audio/*" required>
+            <input type="file" id="fileUpload" name="fileUpload" accept="audio/*" class="custom-upload-btn" required>
             <span class="upload-filename"></span>
-            <img src="" alt="Song Preview" class="upload-preview">
+            <img src="" alt="Song Preview" class="upload-preview" id="previewImage">
         </div>
-        <button type="submit" class="custom-upload-btn">Upload</button>
+        <div class="audio-player" id="audioPlayer">
+            <audio controls id="audioControl">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+        
+        <button type="submit" id="uploadButton">Upload</button>
+
     </form>
 </div>
 
-<audio id="audioPlayer" controls>
-    Your browser does not support the audio element.
-</audio>
+
 
 <script src="/fileUpload/static/fileUpload.js"></script>
 

@@ -1,4 +1,5 @@
-import songDatabase from "./songsDatabase.js";
+import { songDatabase } from 'https://github.com/pavansweb/SongDatabase/blob/main/songDatabase.js';
+
 
 document.addEventListener("DOMContentLoaded", function () {
   const audioPlayer = document.getElementById("audioPlayer");

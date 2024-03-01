@@ -1,4 +1,5 @@
-import songDatabase from "./songsDatabase";
+import songDatabase from "./songsDatabase.js";
+
 
 
 document.addEventListener("DOMContentLoaded", function () {

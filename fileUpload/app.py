@@ -14,7 +14,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 SONG_DATABASE_FILE = 'songDatabase.js'
 GITHUB_USERNAME = "pavansweb"
-GITHUB_ACCESS_TOKEN = "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"
+GITHUB_ACCESS_TOKEN = "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"
 GITHUB_REPOSITORY = "HorizonTunesApp"
 GITHUB_FILE_PATH = "webPage/songsDatabase.js"
 
@@ -139,7 +139,7 @@ def upload_to_github(file_path, filename):
     try:
         # GitHub repository details
         username = "pavansweb"
-        access_token = "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"
+        access_token = "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"
         repository = "songs"
 
         # GitHub API endpoint

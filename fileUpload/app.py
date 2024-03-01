@@ -13,6 +13,10 @@ if not os.path.exists(UPLOAD_FOLDER):
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 SONG_DATABASE_FILE = 'songDatabase.js'
+GITHUB_USERNAME = "pavansweb"
+GITHUB_ACCESS_TOKEN = "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"
+GITHUB_REPOSITORY = "HorizonTunesApp"
+GITHUB_FILE_PATH = "webPage/songsDatabase.js"
 
 def add_to_song_database(title, src, image, category, author, num_lines_from_bottom):
     try:
@@ -31,6 +35,43 @@ def add_to_song_database(title, src, image, category, author, num_lines_from_bot
     except Exception as e:
         print(f"Error adding to song database: {e}")
 
+def change_file_in_gitjs(content):
+    try:
+        # GitHub repository details
+        url = f"https://api.github.com/repos/{GITHUB_USERNAME}/{GITHUB_REPOSITORY}/contents/{GITHUB_FILE_PATH}"
+
+        # GitHub API headers
+        headers = {
+            "Authorization": f"token {GITHUB_ACCESS_TOKEN}",
+            "Content-Type": "application/json"
+        }
+
+        # Encode the content as base64
+        content_base64 = base64.b64encode(content.encode()).decode('utf-8')
+
+        # Prepare the request data
+        data = {
+            "message": "Update song database",
+            "content": content_base64,
+            "sha": get_file_sha(url)  # Get the current SHA of the file
+        }
+
+        # Update the songDatabase.js file in GitHub
+        response = requests.put(url, headers=headers, json=data)
+
+        if response.status_code == 200:
+            print("Song database updated on GitHub successfully.")
+        else:
+            print(f"Failed to update song database on GitHub. Status code: {response.status_code}")
+    except Exception as e:
+        print(f"Error updating song database on GitHub: {e}")
+
+def get_file_sha(url):
+    response = requests.get(url)
+    if response.status_code == 200:
+        return response.json().get("sha")
+    else:
+        raise Exception(f"Failed to get file SHA from GitHub. Status code: {response.status_code}")
 
 @app.route('/')
 def index():
@@ -71,15 +112,15 @@ def upload_song():
 
             print("Song saved to disk")
 
-            # Upload the song file to GitHub
-            upload_to_github(file_path, file_name)
-
             print("  ")
 
             # Add song details to songDatabase.js
             add_to_song_database(song_name, f"https://pavansweb.github.io/songs/{file_name}", song_image, song_genre, song_author , 4)
 
             print("Song details added to songDatabase.js")
+
+            # Upload song to GitHub
+            upload_to_github(file_path, SONG_DATABASE_FILE)
 
             # Return a success response
             return jsonify({"message": "Song uploaded successfully", "file_url": f"/{file_name}"})
@@ -90,7 +131,6 @@ def upload_song():
     else:
         return jsonify({"error": "Method not allowed"}), 405
 
-
 @app.route('/fileUpload/static/<path:filename>')
 def serve_static(filename):
     return send_from_directory('static', filename)
@@ -99,7 +139,7 @@ def upload_to_github(file_path, filename):
     try:
         # GitHub repository details
         username = "pavansweb"
-        access_token = "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"
+        access_token = "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"
         repository = "songs"
 
         # GitHub API endpoint
@@ -141,45 +181,6 @@ def upload_to_github(file_path, filename):
             print(f"Failed to upload song to GitHub. Status code: {response.status_code}")
     except Exception as e:
         print(f"Error uploading to GitHub: {e}")
-
-def change_file_in_gitjs(content):
-    try:
-        # GitHub repository details
-        username = "pavansweb"
-        access_token = "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"  
-        repository = "HorizonTunesApp"
-        branch = "main"
-        file_path = "webPage/songsDatabase.js"
-
-        # GitHub API endpoint
-        url = f"https://api.github.com/repos/{username}/{repository}/contents/{file_path}"
-
-        # GitHub API headers
-        headers = {
-            "Authorization": f"token {access_token}",
-            "Content-Type": "application/json"
-        }
-
-        # Prepare the request data
-        data = {
-            "message": "Update songDatabase.js",
-            "content": base64.b64encode(content.encode()).decode('utf-8'),
-            "branch": branch
-        }
-
-        # Update the file on GitHub
-        response = requests.put(url, headers=headers, json=data)
-
-        if response.status_code == 200:
-            print("songDatabase.js updated successfully on GitHub.")
-        else:
-            print(f"Failed to update songDatabase.js on GitHub. Status code: {response.status_code}")
-
-    except requests.RequestException as e:
-        print(f"Error updating songDatabase.js on GitHub: {e}")
-    except Exception as e:
-        print(f"An unexpected error occurred: {e}")
-
 
 
 

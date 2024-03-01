@@ -1,4 +1,4 @@
-import { songDatabase } from 'https://github.com/pavansweb/SongDatabase/blob/main/songDatabase.js';
+import { songDatabase } from 'https://github.com/pavansweb/SongDatabase/songDatabase.js';
 
 
 document.addEventListener("DOMContentLoaded", function () {

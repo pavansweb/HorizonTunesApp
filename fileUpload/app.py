@@ -6,6 +6,9 @@ import base64
 
 app = Flask(__name__)
 
+if __name__ == '__main__':
+    app.run()
+
 # Create the upload folder if it doesn't exist
 UPLOAD_FOLDER = 'uploads'
 if not os.path.exists(UPLOAD_FOLDER):

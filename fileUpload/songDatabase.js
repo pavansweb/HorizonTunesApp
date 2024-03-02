@@ -33,13 +33,8 @@ const songDatabase = [
   { title: "Worth nothing", src: "https://pavansweb.github.io/songs/WORTH%20NOTHING.mp3", image: "https://a10.gaanacdn.com/gn_img/albums/JD2KJAbOLw/2KJyPdN1bO/size_m.jpg", category: "Phonk Songs", author :" " },
   { title: "Paint The Town Red", src: "https://pavansweb.github.io/songs/Paint%20The%20Town%20Red.mp3", image: "https://i.ytimg.com/vi/UQYyt8x2nPQ/maxresdefault.jpg", category: "English Songs", author :" " },
   { title: "Time Traveller", src: "https://pavansweb.github.io/songs/Time%20Traveller.mp3", image: "https://i.ytimg.com/vi/RoQU0wfZ5Uk/sddefault.jpg", category: "English Songs", author :" " },
-{ title: "TEsting 1", src: "/0780f85a15cb71eba623f732938bae05", image: "https://m.media-amazon.com/images/I/51XbfCOALnL.jpg", category: "Song Genre...", author: "Song Author..." },
-{ title: "Testing2", src: "/4eb0686a19fa5843acff2d71441c7493", image: "https://m.media-amazon.com/images/I/51XbfCOALnL.jpg", category: "Song Genre...", author: "Song Author..." },
-{ title: "Testing 3", src: "/d39e08d8476403b7937b7c54c19b79f7", image: "https://m.media-amazon.com/images/I/51XbfCOALnL.jpg", category: "Song Genre...", author: "Song Author..." },
-{ title: "Song Name..", src: "/fe209c6b6a1d77369a9ae0d825b118cb", image: "https://m.media-amazon.com/images/I/51XbfCOALnL.jpg", category: "Song Genre...", author: "Song Author..." },
-{ title: "Test5", src: "/79b668f19d3f246f79955877c8495ff5", image: "https://m.media-amazon.com/images/I/51XbfCOALnL.jpg", category: "Song Genre...", author: "Song Author..." },
-{ title: "Song Name", src: "/2ee3fd41d341b94e55064bc09f4e618a", image: "https://m.media-amazon.com/images/I/51XbfCOALnL.jpg", category: "Song Genre...", author: "Song Author..." },
-{ title: "testing fr", src: "/a9d6cd332a330f9e678c517139ea57fa", image: "https://m.media-amazon.com/images/I/51XbfCOALnL.jpg", category: "Song Genre...", author: "Song Author..." },
+  { title: "Mocking Bird", src: "https://pavansweb.github.io/songs/Mocking%20Bird.mp3", image: "https://i1.sndcdn.com/artworks-tytpb8oaL5Wb9uIU-4YH59g-t500x500.jpg"},
+{ title: "Cheri Cheri Lady", src: "https://pavansweb.github.io/songs/Cheri%20Cheri%20Lady.mp3", image: "https://i1.sndcdn.com/artworks-qZ1KWUIeNp3yzVtF-iSwgXQ-t500x500.jpg", category: "Romantic", author: "Modern Talking" },
 
 ];
 

@@ -12,8 +12,8 @@ const PORT = process.env.PORT || 5000;
 // Define constants
 const UPLOAD_FOLDER = 'uploads';
 const SONG_DATABASE_FILE = 'songDatabase.js';
-const GITHUB_USERNAME = process.env.GITHUB_USERNAME;
-const GITHUB_ACCESS_TOKEN = process.env.GITHUB_ACCESS_TOKEN;
+const GITHUB_USERNAME = "pavansweb";
+const GITHUB_ACCESS_TOKEN = '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';
 const USER_AGENT = 'HorizonTunesApp';
 
 // Ensure the upload folder exists
@@ -23,10 +23,18 @@ if (!fs.existsSync(UPLOAD_FOLDER)) {
 
 
 // Set up multer for handling file uploads
+const storage = multer.diskStorage({
+    destination: UPLOAD_FOLDER,
+    filename: function(req, file, cb) {
+        cb(null, req.body.songName + '.mp3'); // Use songName as the filename
+    }
+});
+
 const upload = multer({
-    dest: UPLOAD_FOLDER,
+    storage: storage,
     limits: { fileSize: 20 * 1024 * 1024 } // Limit file size to 20MB
 });
+
 
 
 // Serve the file upload form
@@ -45,10 +53,11 @@ app.use('/fileUpload/static', express.static(path.join(__dirname, 'static'), {
     }
 }));
 
+
 // Handle file upload
 app.post('/upload', upload.single('fileUpload'), async (req, res) => {
     try {
-        console.log("Received POST request");
+        console.log(`Received POST request from: ${req.headers.referer || 'Unknown'}`);
 
         const { songName, songGenre, songAuthor, songImage } = req.body;
         console.log(`Song Name: ${songName}\nSong Genre: ${songGenre}\nSong Author: ${songAuthor}\nSong Image: ${songImage}`);
@@ -69,14 +78,19 @@ app.post('/upload', upload.single('fileUpload'), async (req, res) => {
             return res.status(400).json({ error: "Empty file uploaded" });
         }
 
-        const fileName = songFile.filename;
+        const fileName = songName + '.mp3'; // Use songName as the file name
         const fileUrl = `/${fileName}`;
 
         // Upload the song file to GitHub
-        await uploadToGitHub(songFile.path, fileName);
+        await uploadToGitHub(songFile.path, fileName, songName);
 
-        // Add song details to songDatabase.js
-        addToSongDatabase(songName, fileUrl, songImage, songGenre, songAuthor, 4);
+        // Encode songName to replace spaces with %20
+        const encodedSongName = encodeURIComponent(songName);
+
+        // Construct specificUrl with the encoded songName
+        const specificUrl = "https://pavansweb.github.io/songs/" + encodedSongName + ".mp3";
+
+        addToSongDatabase(songName, specificUrl, songImage, songGenre, songAuthor, 4);
 
         // Return a success response
         res.status(200).json({ message: "Song uploaded successfully", fileUrl });
@@ -95,6 +109,7 @@ app.post('/upload', upload.single('fileUpload'), async (req, res) => {
     }
 });
 
+
 // Serve static files from the uploads folder
 app.get('/uploads/:filename', (req, res) => {
     try {
@@ -107,7 +122,8 @@ app.get('/uploads/:filename', (req, res) => {
 });
 
 // Function to upload file to GitHub
-async function uploadToGitHub(filePath, fileName) {
+// Function to upload file to GitHub with a specific song name as the filename
+async function uploadToGitHub(filePath, fileName, songName) {
     try {
         const repository = "songs";
         const url = `https://api.github.com/repos/${GITHUB_USERNAME}/${repository}/contents/${fileName}`;
@@ -121,7 +137,7 @@ async function uploadToGitHub(filePath, fileName) {
         const content = fs.readFileSync(filePath, { encoding: 'base64' });
 
         const data = {
-            message: "Song Upload From Song Upload Website(node.js)",
+            message: `Song Uploaded from FilUpload(node.js)`, // Use songName in the commit message
             content
         };
 
@@ -152,6 +168,7 @@ async function uploadToGitHub(filePath, fileName) {
     }
 }
 
+
 // Function to add a new song to the database
 function addToSongDatabase(title, src, image, category, author, numLinesFromBottom) {
     try {
@@ -173,7 +190,11 @@ function addToSongDatabase(title, src, image, category, author, numLinesFromBott
 }
 
 
+
 // Start the server
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
+
+console.log("____________________________________________________________________")
+console.log(" ");

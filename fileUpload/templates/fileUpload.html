@@ -9,43 +9,40 @@
 <body>
 
 <div class="upload-form">
-    <h2>Upload Song</h2>
+    <h2>Upload Your Song</h2>
     <form id="uploadForm" enctype="multipart/form-data" method="POST">
         <div class="form-group">
-            <label for="songName">Song Name:</label>
-            <input type="text" id="songName" name="songName" value="Song Name" required>
+            <label for="songName">Song Name</label>
+            <input type="text" id="songName" name="songName" placeholder="Enter song name" required>
         </div>
         <div class="form-group">
-            <label for="songGenre">Song Genre:</label>
-            <input type="text" id="songGenre" name="songGenre" value="Song Genre..." required>
+            <label for="songGenre">Song Genre</label>
+            <select id="songGenre" name="songGenre" required>
+                <option value="" disabled selected>Select Genre</option>
+                <option value="Romantic">Romantic Songs</option>
+                <option value="English">English Songs</option>
+                <option value="Phonk">Phonk Songs</option>
+                <option value="Hollywood">Hollywood Songs</option>
+            </select>
         </div>
         <div class="form-group">
-            <label for="songAuthor">Song Author:</label>
-            <input type="text" id="songAuthor" name="songAuthor" value="Song Author..." required>
+            <label for="songAuthor">Song Author</label>
+            <input type="text" id="songAuthor" name="songAuthor" placeholder="Enter song author" required>
         </div>
         <div class="form-group">
-            <label for="songImage">Song Image Link:</label>
-            <input type="text" id="songImage" name="songImage" >
-            <p style="color: red ;">(* IMG Cropped to square) </p>
+            <label for="songImage">Song Image Link</label>
+            <input type="text" id="songImage" name="songImage" placeholder="Paste song image link (Square image recommended)" required>
         </div>
         <div class="form-group">
-            <label for="fileUpload" class="custom-upload-btn">Choose File</label>
-            <input type="file" id="fileUpload" name="fileUpload" accept="audio/*" class="custom-upload-btn" required>
+            <label for="fileUpload" class="custom-upload-btn">Choose Audio File</label>
+            <input type="file" id="fileUpload" name="fileUpload" accept="audio/*" required>
             <span class="upload-filename"></span>
             <img src="" alt="Song Preview" class="upload-preview" id="previewImage">
         </div>
-        <div class="audio-player" id="audioPlayer">
-            <audio controls id="audioControl">
-                Your browser does not support the audio element.
-            </audio>
-        </div>
-        
         <button type="submit" id="uploadButton">Upload</button>
-
+        <div class="loader" id="loader"></div>
     </form>
 </div>
-
-
 
 <script src="/fileUpload/static/fileUpload.js"></script>
 

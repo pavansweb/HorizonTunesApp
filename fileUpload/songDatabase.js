@@ -39,6 +39,7 @@ const songDatabase = [
 { title: "Song Name..", src: "/fe209c6b6a1d77369a9ae0d825b118cb", image: "https://m.media-amazon.com/images/I/51XbfCOALnL.jpg", category: "Song Genre...", author: "Song Author..." },
 { title: "Test5", src: "/79b668f19d3f246f79955877c8495ff5", image: "https://m.media-amazon.com/images/I/51XbfCOALnL.jpg", category: "Song Genre...", author: "Song Author..." },
 { title: "Song Name", src: "/2ee3fd41d341b94e55064bc09f4e618a", image: "https://m.media-amazon.com/images/I/51XbfCOALnL.jpg", category: "Song Genre...", author: "Song Author..." },
+{ title: "testing fr", src: "/a9d6cd332a330f9e678c517139ea57fa", image: "https://m.media-amazon.com/images/I/51XbfCOALnL.jpg", category: "Song Genre...", author: "Song Author..." },
 
 ];
 

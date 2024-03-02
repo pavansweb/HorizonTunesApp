@@ -15,3 +15,7 @@ language = "nodejs"
 run = ["sh", "-c", "npm node fileUpload/app.js"]
 deploymentTarget = "cloudrun"
 ignorePorts = false
+
+[[ports]]
+localPort = 5000
+externalPort = 80

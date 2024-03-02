@@ -1,3 +1,4 @@
+/* Background image and body styles */
 body {
   font-family: Arial, sans-serif;
   background-image: url('https://i.pinimg.com/originals/45/f0/e9/45f0e90292e975d5f587af382acd8cc6.jpg');
@@ -10,8 +11,9 @@ body {
   height: 100vh;
 }
 
+/* Upload form styles */
 .upload-form {
-  background-color: rgba(255, 255, 255, 0.08           );
+  background-color: rgba(255, 255, 255, 0.08);
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
@@ -45,10 +47,52 @@ body {
   border-radius: 5px;
   font-size: 16px;
   margin-top: 5px;
-}
-.form-group input[type="file"]{
+  background-color: transparent;
   color: white;
 }
+/* Style the dropdown container */
+.form-group select {
+    width: calc(100% - 40px);
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-top: 5px;
+    background-color: transparent;
+    color: white;
+}
+
+/* Style the dropdown arrow */
+.form-group select::after {
+    content: '\25BC'; /* Unicode character for downward arrow */
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: white; /* Match the color with other form elements */
+}
+
+/* Style the options */
+.form-group select option {
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.08); /* Match the background color with other form elements */
+    color: white; /* Match the color with other form elements */
+}
+
+/* Add hover effect on options */
+.form-group select option:hover {
+    background-color: #e0e0e0;
+}
+
+/* Add focus effect on the dropdown container */
+.form-group select:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.5); /* Match the shadow color with other form elements */
+}
+
+
+
 .form-group .custom-upload-btn {
   display: inline-block;
   padding: 10px 20px;
@@ -92,7 +136,6 @@ body {
   outline: none;
 }
 
-
 .form-group .upload-filename {
   margin-top: 10px;
   color: white;
@@ -108,11 +151,8 @@ body {
   border-radius: 10px; /* Adjust border radius as needed */
 }
 
-
 .audio-player {
   display: none;
-  
-
   z-index: 999;
 }
 
@@ -140,13 +180,9 @@ body {
   background-color: transparent;
 }
 
-
-
-
-
-
+/* Media query for larger screens */
 @media screen and (min-width: 786px) {
   .upload-form {
-      padding: 40px;
+    padding: 40px;
   }
 }

@@ -1,18 +1,179 @@
+// Import necessary modules
 const express = require('express');
+const fs = require('fs');
 const path = require('path');
+const request = require('request');
+const multer = require('multer');
 
+// Initialize Express app and set port
 const app = express();
-const port = 3000;
+const PORT = process.env.PORT || 5000;
 
-// Set up static files directory
-app.use('/fileUpload/static', express.static(path.join(__dirname, 'static')));
+// Define constants
+const UPLOAD_FOLDER = 'uploads';
+const SONG_DATABASE_FILE = 'songDatabase.js';
+const GITHUB_USERNAME = process.env.GITHUB_USERNAME;
+const GITHUB_ACCESS_TOKEN = process.env.GITHUB_ACCESS_TOKEN;
+const USER_AGENT = 'HorizonTunesApp';
 
-// Route to serve the HTML file
+// Ensure the upload folder exists
+if (!fs.existsSync(UPLOAD_FOLDER)) {
+    fs.mkdirSync(UPLOAD_FOLDER);
+}
+
+
+// Set up multer for handling file uploads
+const upload = multer({
+    dest: UPLOAD_FOLDER,
+    limits: { fileSize: 20 * 1024 * 1024 } // Limit file size to 20MB
+});
+
+
+// Serve the file upload form
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'templates', 'fileUpload.html'));
 });
 
+// Serve static files
+app.use('/fileUpload/static', express.static(path.join(__dirname, 'static'), {
+    setHeaders: (res, filePath) => {
+        if (filePath.endsWith('.css')) {
+            res.setHeader('Content-Type', 'text/css');
+        } else if (filePath.endsWith('.js')) {
+            res.setHeader('Content-Type', 'application/javascript');
+        }
+    }
+}));
+
+// Handle file upload
+app.post('/upload', upload.single('fileUpload'), async (req, res) => {
+    try {
+        console.log("Received POST request");
+
+        const { songName, songGenre, songAuthor, songImage } = req.body;
+        console.log(`Song Name: ${songName}\nSong Genre: ${songGenre}\nSong Author: ${songAuthor}\nSong Image: ${songImage}`);
+
+
+        const songFile = req.file;
+
+        // Check if file exists
+        if (!songFile) {
+            console.log("No selected file");
+            return res.status(400).json({ error: "No selected file" });
+        }
+
+        // Check if file size is 0
+        if (songFile.size === 0) {
+            console.log("Empty file uploaded");
+            fs.unlinkSync(songFile.path); // Delete the empty file
+            return res.status(400).json({ error: "Empty file uploaded" });
+        }
+
+        const fileName = songFile.filename;
+        const fileUrl = `/${fileName}`;
+
+        // Upload the song file to GitHub
+        await uploadToGitHub(songFile.path, fileName);
+
+        // Add song details to songDatabase.js
+        addToSongDatabase(songName, fileUrl, songImage, songGenre, songAuthor, 4);
+
+        // Return a success response
+        res.status(200).json({ message: "Song uploaded successfully", fileUrl });
+    } catch (error) {
+        console.error(`Error handling file upload: ${error}`);
+        res.status(500).json({ error: "Error handling file upload" });
+    } finally {
+        // Delete the uploaded file
+        if (req.file) {
+            fs.unlink(req.file.path, (err) => {
+                if (err) {
+                    console.error(`Error deleting uploaded file: ${err}`);
+                }
+            });
+        }
+    }
+});
+
+// Serve static files from the uploads folder
+app.get('/uploads/:filename', (req, res) => {
+    try {
+        const fileName = req.params.filename;
+        res.sendFile(path.join(__dirname, UPLOAD_FOLDER, fileName));
+    } catch (error) {
+        console.error(`Error serving static file: ${error}`);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+// Function to upload file to GitHub
+async function uploadToGitHub(filePath, fileName) {
+    try {
+        const repository = "songs";
+        const url = `https://api.github.com/repos/${GITHUB_USERNAME}/${repository}/contents/${fileName}`;
+
+        const headers = {
+            "Authorization": `token ${GITHUB_ACCESS_TOKEN}`,
+            "Content-Type": "application/json",
+            "User-Agent": USER_AGENT
+        };
+
+        const content = fs.readFileSync(filePath, { encoding: 'base64' });
+
+        const data = {
+            message: "Song Upload From Song Upload Website(node.js)",
+            content
+        };
+
+        const response = await new Promise((resolve, reject) => {
+            request.put({
+                url,
+                headers,
+                body: JSON.stringify(data)
+            }, (error, response, body) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(response);
+                }
+            });
+        });
+
+        if (response.statusCode === 201) {
+            console.log("Song uploaded to GitHub successfully.");
+        } else {
+            console.error(`Failed to upload song to GitHub. Status code: ${response.statusCode}`);
+            console.error(`GitHub Response: ${response.body}`);
+            throw new Error(`Failed to upload song to GitHub. Status code: ${response.statusCode}`);
+        }
+    } catch (error) {
+        console.error(`Error uploading file to GitHub: ${error}`);
+        throw new Error("Error uploading file to GitHub");
+    }
+}
+
+// Function to add a new song to the database
+function addToSongDatabase(title, src, image, category, author, numLinesFromBottom) {
+    try {
+        const filePath = path.join(__dirname, SONG_DATABASE_FILE);
+        let lines = fs.readFileSync(filePath, 'utf-8').split('\n');
+
+        // Calculate the index to insert the new song details
+        const index = Math.max(0, lines.length - numLinesFromBottom);
+
+        // Insert the new song details at the calculated index
+        const newSong = `{ title: "${title}", src: "${src}", image: "${image}", category: "${category}", author: "${author}" },`;
+        lines.splice(index, 0, newSong);
+
+        fs.writeFileSync(filePath, lines.join('\n'));
+        console.log("Song details added to songDatabase.js");
+    } catch (error) {
+        console.error(`Error adding to song database: ${error}`);
+    }
+}
+
+
 // Start the server
-app.listen(port, () => {
-    console.log(`YAYY LESGOOO Server is running on http://localhost:${port}`);
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
 });

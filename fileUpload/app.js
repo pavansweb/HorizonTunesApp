@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 5000;
 const UPLOAD_FOLDER = 'uploads';
 const SONG_DATABASE_FILE = 'songDatabase.js';
 const GITHUB_USERNAME = "pavansweb";
-const GITHUB_ACCESS_TOKEN = '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';
+const GITHUB_ACCESS_TOKEN = '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';
 const USER_AGENT = 'HorizonTunesApp';
 
 // Ensure the upload folder exists
@@ -168,9 +168,8 @@ async function uploadToGitHub(filePath, fileName, songName) {
     }
 }
 
-
 // Function to add a new song to the database
-function addToSongDatabase(title, src, image, category, author, numLinesFromBottom) {
+async function addToSongDatabase(title, src, image, category, author, numLinesFromBottom) {
     try {
         const filePath = path.join(__dirname, SONG_DATABASE_FILE);
         let lines = fs.readFileSync(filePath, 'utf-8').split('\n');
@@ -184,10 +183,103 @@ function addToSongDatabase(title, src, image, category, author, numLinesFromBott
 
         fs.writeFileSync(filePath, lines.join('\n'));
         console.log("Song details added to songDatabase.js");
+
+        // Read the updated file content
+        const updatedContent = fs.readFileSync(filePath, { encoding: 'base64' });
+
+        // Upload the updated file content to GitHub repositories
+        await uploadFileToGitHub("HorizonTunesApp", "fileUpload/songDatabase.js", updatedContent);
+        await uploadFileToGitHub("UwU", "webPage/songsDatabase.js", updatedContent);
     } catch (error) {
         console.error(`Error adding to song database: ${error}`);
     }
 }
+
+// Function to upload file content to GitHub
+async function uploadFileToGitHub(repository, filePath, content) {
+    try {
+        const url = `https://api.github.com/repos/${GITHUB_USERNAME}/${repository}/contents/${filePath}`;
+
+        // Retrieve the current SHA of the file
+        const currentSHA = await getCurrentSHA(repository, filePath);
+
+        const headers = {
+            "Authorization": `token ${GITHUB_ACCESS_TOKEN}`,
+            "Content-Type": "application/json",
+            "User-Agent": USER_AGENT
+        };
+
+        const data = {
+            message: `Update ${filePath}`,
+            content,
+            sha: currentSHA // Include the SHA parameter
+        };
+
+        const response = await new Promise((resolve, reject) => {
+            request.put({
+                url,
+                headers,
+                body: JSON.stringify(data)
+            }, (error, response, body) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(response);
+                }
+            });
+        });
+
+        if (response.statusCode === 200) {
+            console.log(`${filePath} uploaded to GitHub repository ${repository} successfully.`);
+        } else {
+            console.error(`Failed to upload ${filePath} to GitHub repository ${repository}. Status code: ${response.statusCode}`);
+            console.error(`GitHub Response: ${response.body}`);
+            throw new Error(`Failed to upload ${filePath} to GitHub repository ${repository}. Status code: ${response.statusCode}`);
+        }
+    } catch (error) {
+        console.error(`Error uploading ${filePath} to GitHub repository ${repository}: ${error}`);
+        throw new Error(`Error uploading ${filePath} to GitHub repository ${repository}`);
+    }
+}
+
+// Function to get current SHA of the file from GitHub
+async function getCurrentSHA(repository, filePath) {
+    try {
+        const url = `https://api.github.com/repos/${GITHUB_USERNAME}/${repository}/contents/${filePath}`;
+
+        const headers = {
+            "Authorization": `token ${GITHUB_ACCESS_TOKEN}`,
+            "User-Agent": USER_AGENT
+        };
+
+        const response = await new Promise((resolve, reject) => {
+            request.get({
+                url,
+                headers
+            }, (error, response, body) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(response);
+                }
+            });
+        });
+
+        const responseBody = JSON.parse(response.body);
+        if (response.statusCode === 200) {
+            return responseBody.sha;
+        } else {
+            console.error(`Failed to get current SHA of ${filePath} from GitHub. Status code: ${response.statusCode}`);
+            console.error(`GitHub Response: ${response.body}`);
+            throw new Error(`Failed to get current SHA of ${filePath} from GitHub. Status code: ${response.statusCode}`);
+        }
+    } catch (error) {
+        console.error(`Error getting current SHA of ${filePath} from GitHub: ${error}`);
+        throw new Error(`Error getting current SHA of ${filePath} from GitHub`);
+    }
+}
+
+
 
 
 

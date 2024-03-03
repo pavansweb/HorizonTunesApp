@@ -66,6 +66,43 @@ input[type="submit"]:hover {
     margin-right: 10px;
 }
 
+
+.button-container {
+    margin-top: 15px;
+    display: flex; 
+    gap: 10px; 
+}
+
+
+.whatsapp-button {
+    background-color: #25d366; 
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.whatsapp-button:hover {
+    background-color: #128C7E; 
+}
+
+
+.instagram-button {
+    background-image: linear-gradient(to right, #f9ce34, #ee2a7b, #6228d7);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.instagram-button:hover {
+    background-color: #6f42c1; /* Darker shade of Instagram purple on hover */
+}
+
 @media (max-width: 900px) {
     .container {
         margin: 50px 30px;

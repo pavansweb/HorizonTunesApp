@@ -11,7 +11,7 @@
 
     <div class="container">
         <h1><i class="fas fa-envelope"></i>Contact Us</h1>
-        <form action="https://formspree.io/f/xzbngqby" method="post">
+        <form id="contactForm" action="https://formspree.io/f/xzbngqby" method="post">
             <label for="name"><i class="fas fa-user"></i>Your Name</label>
             <input type="text" id="name" name="name"  required>
         
@@ -23,7 +23,43 @@
         
             <input type="submit" value="Submit">
         </form>
+
+         <!-- Container for Buttons -->
+    <div class="button-container">
+        <!-- WhatsApp Button -->
+        <button class="whatsapp-button" onclick="sendToWhatsapp()">
+            <i class="fab fa-whatsapp"></i> Chat on WhatsApp
+        </button>
+
+        <!-- Instagram Button -->
+        <button class="instagram-button" onclick="visitInstagram()">
+            <i class="fab fa-instagram"></i> Visit Instagram
+        </button>
     </div>
+
+
+    </div>
+
+    <script>
+        function sendToWhatsapp() {
+            let number = "+918123565609"; // Replace with your WhatsApp number
+
+            let name = document.getElementById('name').value;
+            let email = document.getElementById('email').value;
+            let message = document.getElementById('message').value;
+
+            var url = "https://wa.me/" + number + "?text="
+            + "Name: " + name + "%0a"
+            + "Email: " + email + "%0a"
+            + "Message: " + message + "%0a%0a";
+
+            window.open(url, '_blank').focus();
+        }
+
+        function visitInstagram() {
+            window.open("https://www.instagram.com/p_a_v_a_n_8_8_8_/", '_blank');
+        }
+    </script>
 
 </body>
 </html>

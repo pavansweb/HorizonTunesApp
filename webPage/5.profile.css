@@ -273,4 +273,33 @@ body {
    body1{
     display: none;
    }
+   
+.bottomBar {
+  position: fixed;
+  bottom: 0px;
+  background-color: #212122;
+  box-shadow: 0px -5px 10px green; 
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+  padding: 10px 0;
+}
+
+
+.bottomBtn {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: #37ff8b;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  font-weight: bold; 
+  transition: background-color 0.3s;
+  padding: 13px 25px;
+}
+
+.bottomBtn:hover {
+  background-color:  rgba(255, 255, 255, 0.2);;
+}
 }

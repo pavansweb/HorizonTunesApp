@@ -1,4 +1,4 @@
-import songDatabase from "../fileUpload/songDatabase.js";
+import songDatabase from "./songDatabase.js";
 
 
 

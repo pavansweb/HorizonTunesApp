@@ -77,12 +77,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  document.addEventListener("keydown", function (event) {
-    if (event.keyCode === 32) {
-      event.preventDefault();
-      togglePlayPause();
-    }
-  });
+
 
   document.getElementById("playerImg").addEventListener("click", function () {
     document
@@ -90,23 +85,28 @@ document.addEventListener("DOMContentLoaded", function () {
       .classList.toggle("music-player-rotate");
   });
 
-  const songScrollContainer = document.getElementById("phonk");
 
-  function scrollSongBoxes() {
-    // Scroll to the next position
-    songScrollContainer.scrollLeft += 1;
+  
+  // Function to scroll song boxes within each container
+   const songScrollContainers = document.querySelectorAll(".song-scroll");
+   function scrollSongBoxes() {
+       // Loop through each song scroll container
+       songScrollContainers.forEach(container => {
+           // Scroll to the next position
+           container.scrollLeft += 1;
 
-    // Check if reached the end, then reset to the beginning
-    if (
-      songScrollContainer.scrollLeft >=
-      songScrollContainer.scrollWidth - songScrollContainer.clientWidth
-    ) {
-      songScrollContainer.scrollLeft = 0;
-    }
-  }
+           // Check if reached the end, then reset to the beginning
+           if (
+               container.scrollLeft >=
+               container.scrollWidth - container.clientWidth
+           ) {
+               container.scrollLeft = 0;
+           }
+       });
+   }
 
-  // Set an interval to scroll every 50 milliseconds (adjust the speed as needed)
-  setInterval(scrollSongBoxes, 50);
+   // Set an interval to scroll every 50 milliseconds (adjust the speed as needed)
+   setInterval(scrollSongBoxes, 50);
 
   // Shuffle the songDatabase array
   function shuffleArray(array) {
@@ -271,10 +271,13 @@ document.addEventListener("DOMContentLoaded", function () {
     if (imageSrc) {
       albumArt.src = imageSrc;
       albumArt.style.display = "block";
-    } else {
+      albumArt.style.width = "300px"; 
+      albumArt.style.height = "200px"; 
+      albumArt.style.objectFit = "cover"; 
+  } else {
       albumArt.style.display = "none";
-    }
-
+  }
+  
     // Check if the category div is already present
     const existingCategoryDiv =
       albumArt.parentNode.querySelector(".song-category");
@@ -460,17 +463,6 @@ document.addEventListener("DOMContentLoaded", function () {
     // Update the tooltip position and content
     updateTooltip(currentTime, duration);
   }
-  document.addEventListener("keydown", function (event) {
-    if (event.key === "ArrowRight") {
-      // Move forward by 5 seconds (adjust as needed)
-      audioPlayer.currentTime += 5;
-      updateProgressBar();
-    } else if (event.key === "ArrowLeft") {
-      // Move backward by 5 seconds (adjust as needed)
-      audioPlayer.currentTime -= 5;
-      updateProgressBar();
-    }
-  });
 
   function togglePlayPause() {
     if (isPlaying) {
@@ -550,6 +542,25 @@ document.addEventListener("DOMContentLoaded", function () {
       increaseVolume();
     } else if (event.key === "ArrowDown") {
       decreaseVolume();
+    }
+  });
+
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "ArrowRight") {
+      // Move forward by 5 seconds (adjust as needed)
+      audioPlayer.currentTime += 5;
+      updateProgressBar();
+    } else if (event.key === "ArrowLeft") {
+      // Move backward by 5 seconds (adjust as needed)
+      audioPlayer.currentTime -= 5;
+      updateProgressBar();
+    }
+  });
+
+  document.addEventListener("keydown", function (event) {
+    if (event.keyCode === 32) {
+      event.preventDefault();
+      togglePlayPause();
     }
   });
 

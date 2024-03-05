@@ -33,7 +33,7 @@ const songDatabase = [
   { title: "Worth nothing", src: "https://pavansweb.github.io/songs/WORTH%20NOTHING.mp3", image: "https://a10.gaanacdn.com/gn_img/albums/JD2KJAbOLw/2KJyPdN1bO/size_m.jpg", category: "Phonk Songs", author :" " },
   { title: "Paint The Town Red", src: "https://pavansweb.github.io/songs/Paint%20The%20Town%20Red.mp3", image: "https://i.ytimg.com/vi/UQYyt8x2nPQ/maxresdefault.jpg", category: "English Songs", author :" " },
   { title: "Time Traveller", src: "https://pavansweb.github.io/songs/Time%20Traveller.mp3", image: "https://i.ytimg.com/vi/RoQU0wfZ5Uk/sddefault.jpg", category: "English Songs", author :" " },
-  { title: "Mocking Bird", src: "https://pavansweb.github.io/songs/Mocking%20Bird.mp3", image: "https://i1.sndcdn.com/artworks-tytpb8oaL5Wb9uIU-4YH59g-t500x500.jpg"},
+  { title: "Mocking Bird", src: "https://pavansweb.github.io/songs/Mocking%20Bird.mp3", image: "https://i1.sndcdn.com/artworks-tytpb8oaL5Wb9uIU-4YH59g-t500x500.jpg",category: "English Songs"},
   { title: "Cheri Cheri Lady", src: "https://pavansweb.github.io/songs/Cheri%20Cheri%20Lady.mp3", image: "https://i1.sndcdn.com/artworks-qZ1KWUIeNp3yzVtF-iSwgXQ-t500x500.jpg", category: "Romantic", author: "Modern Talking" },
 
 ];

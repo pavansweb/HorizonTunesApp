@@ -213,7 +213,7 @@ body {
 
 .song-container {
   display: grid;
-  margin-left: 0;
+  margin-left: 2;
   margin-right: 0;
   margin-top: 3rem;
   grid-template-columns: auto;
@@ -237,6 +237,10 @@ body {
   white-space: nowrap;
   -ms-overflow-style: none;
   scrollbar-color: #37ff8b #121212;
+}
+
+.song-scroll-container:hover {
+  animation-play-state: paused; /* Pause animation on hover */
 }
 
 .song-scroll::-webkit-scrollbar {
@@ -274,7 +278,6 @@ h2 {
   overflow: hidden;
   margin-right: 1.3rem;
   border-radius: 2px;
-  transition: transform 10s ease-in-out;
   flex: 0 0 auto;
 }
 
@@ -284,33 +287,6 @@ h2 {
 .song-box:hover {
   transform: scale(1.05);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-}
-
-.song-container > div:nth-child(1) .song-scroll .song-box {
-  animation: keepMoving 15s linear infinite 1s;
-}
-
-.song-container > div:nth-child(2) .song-scroll .song-box {
-  animation: keepMoving 15s linear infinite 2s;
-}
-
-.song-container > div:nth-child(3) .song-scroll .song-box {
-  animation: keepMoving 15s linear infinite 3s;
-}
-
-@keyframes keepMoving {
-  0% {
-    transform: translateX(0%);
-  }
-  50% {
-    transform: translateX(-110%);
-  }
-  75% {
-    transform: translateX(-110%);
-  }
-  100% {
-    transform: translateX(-0%);
-  }
 }
 
 .song-box img {
@@ -346,7 +322,7 @@ h2 {
 
 .music-player {
   display: none;
-  width: 71%;
+  width: 60%;
   margin: auto;
   margin-top: 3rem;
   padding: 10px 40px 50px 40px;
